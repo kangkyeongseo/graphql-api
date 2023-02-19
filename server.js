@@ -4,10 +4,12 @@ let tweets = [
   {
     id: "1",
     text: "first",
+    userId: "1",
   },
   {
     id: "2",
     text: "second",
+    userId: "1",
   },
 ];
 
@@ -56,9 +58,15 @@ const resolvers = {
   },
   Mutation: {
     postTweet(root, { text, userId }) {
+      const userExist = Boolean(users.find((user) => user.id === userId));
+      if (!userExist) {
+        console.log("User dose not exist");
+        return;
+      }
       const newTweet = {
         id: tweets.length + 1,
         text,
+        userId,
       };
       tweets.push(newTweet);
       return newTweet;
@@ -73,6 +81,12 @@ const resolvers = {
   User: {
     fullName({ firstName, lastName }) {
       return `${firstName} ${lastName}`;
+    },
+  },
+  Tweet: {
+    author({ userId }) {
+      const author = users.find((user) => user.id === userId);
+      return author;
     },
   },
 };
