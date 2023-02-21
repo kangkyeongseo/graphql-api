@@ -22,24 +22,48 @@ let users = [
 ];
 
 const typeDefs = gql`
+  """
+  User object represents a resource for a User
+  """
   type User {
     id: ID!
     firstName: String!
     lastName: String!
+    """
+    Is the sum of firstname + lastname as a string
+    """
     fullName: String!
   }
+  """
+  Tweet object represents a resource for a Tweet
+  """
   type Tweet {
     id: ID!
     text: String!
     author: User
   }
   type Query {
+    """
+    Get all Tweets
+    """
     allTweets: [Tweet!]!
+    """
+    Get a Tweet using id
+    """
     tweet(id: ID!): Tweet
+    """
+    Get all Users
+    """
     allUsers: [User!]!
   }
   type Mutation {
+    """
+    Post a Tweet
+    """
     postTweet(text: String!, userId: ID!): Tweet
+    """
+    Deletes a Tweet if found, else return false
+    """
     deleteTweet(id: ID!): Boolean!
   }
 `;
